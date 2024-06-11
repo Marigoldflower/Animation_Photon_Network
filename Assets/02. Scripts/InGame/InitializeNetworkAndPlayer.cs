@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PhotonConnectionManager : MonoBehaviourPunCallbacks
+public class InitializeNetworkAndPlayer : MonoBehaviourPunCallbacks
 {
     void Awake()
     {
@@ -28,7 +28,6 @@ public class PhotonConnectionManager : MonoBehaviourPunCallbacks
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = 2; // 최대 플레이어 수를 2로 설정
         PhotonNetwork.JoinOrCreateRoom("GameRoom", roomOptions, null);
-        Debug.Log("2명이 들어갈 수 있는 방을 생성");
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -36,5 +35,24 @@ public class PhotonConnectionManager : MonoBehaviourPunCallbacks
         base.OnPlayerEnteredRoom(newPlayer);
         Debug.Log("New Player Come In");
     }
-}
 
+    public override void OnJoinedRoom()
+    {
+        if (PhotonNetwork.IsConnectedAndReady)
+        {
+            Vector3 spawnPosition = new Vector3(Random.Range(-1f, 1f), 1f, Random.Range(-1f, 1f));
+            PhotonNetwork.Instantiate("Character", spawnPosition, Quaternion.identity);
+        }
+    }
+
+    //void Start()
+    //{
+
+    //    if (PhotonNetwork.IsConnectedAndReady)
+    //    {
+    //        Vector3 spawnPosition = new Vector3(Random.Range(-1f, 1f), 1f, Random.Range(-1f, 1f));
+    //        PhotonNetwork.Instantiate("Character", spawnPosition, Quaternion.identity);
+    //    }
+
+    //}
+}
