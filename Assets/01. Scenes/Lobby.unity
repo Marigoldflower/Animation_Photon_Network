@@ -877,7 +877,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 951
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1845,6 +1845,7 @@ MonoBehaviour:
     trackingPositionOffset: {x: 0, y: 0, z: 0}
     trackingRotationOffset: {x: 0, y: 0, z: 0}
   headbodyPositionOffset: {x: 0, y: 0, z: 0}
+  characterHeight: 0.11
 --- !u!114 &1303503551
 MonoBehaviour:
   m_ObjectHideFlags: 0
