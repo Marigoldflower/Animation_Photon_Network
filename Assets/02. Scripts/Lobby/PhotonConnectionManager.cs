@@ -25,9 +25,9 @@ public class PhotonConnectionManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("네트워크 마스터에 접속");
-        //RoomOptions roomOptions = new RoomOptions();
-        //roomOptions.MaxPlayers = 2; // 최대 플레이어 수를 2로 설정
-        //PhotonNetwork.JoinOrCreateRoom("GameRoom", roomOptions, null);
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 2; // 최대 플레이어 수를 2로 설정
+        PhotonNetwork.JoinOrCreateRoom("GameRoom", roomOptions, null);
         Debug.Log("2명이 들어갈 수 있는 방을 생성");
     }
 
