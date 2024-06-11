@@ -14,20 +14,15 @@ public class SetRender : MonoBehaviour
     {
         pv = this.GetComponent<PhotonView>();
 
-        int playerMask = 1 << LayerMask.NameToLayer("Player");
-        int enemyMask = 1 << LayerMask.NameToLayer("Enemy");
-        int handMask = 1 << LayerMask.NameToLayer("Hand");
-        int weaponMask = 1 << LayerMask.NameToLayer("Weapon");
-
-        hands[0].layer = handMask;
-        hands[1].layer = handMask;
+        hands[0].layer = 9;
+        hands[1].layer = 9;
 
         foreach (var weapon in weapons)
         {
             Renderer[] renderers = weapon.GetComponentsInChildren<Renderer>();
             for (int i = 0; i < renderers.Length; i++)
             {
-                renderers[i].gameObject.layer = weaponMask;
+                renderers[i].gameObject.layer = 8;
             }
         }
 
@@ -38,7 +33,7 @@ public class SetRender : MonoBehaviour
                 Renderer[] renderers = body.GetComponentsInChildren<Renderer>();
                 for (int i = 0; i < renderers.Length; i++)
                 {
-                    renderers[i].gameObject.layer = playerMask;
+                    renderers[i].gameObject.layer = 6;
                 }
             }
         }
@@ -49,7 +44,7 @@ public class SetRender : MonoBehaviour
                 Renderer[] renderers = body.GetComponentsInChildren<Renderer>();
                 for (int i = 0; i < renderers.Length; i++)
                 {
-                    renderers[i].gameObject.layer = enemyMask;
+                    renderers[i].gameObject.layer = 7;
                 }
             }
         }

@@ -1107,6 +1107,7 @@ GameObject:
   - component: {fileID: -2943550586384876284}
   - component: {fileID: 4940606444643076300}
   - component: {fileID: 2159362665115808751}
+  - component: {fileID: 6915903933656377644}
   m_Layer: 6
   m_Name: Character
   m_TagString: Untagged
@@ -1428,6 +1429,29 @@ MonoBehaviour:
     LayerIndex: 2
   - SynchronizeType: 1
     LayerIndex: 3
+--- !u!114 &6915903933656377644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3651410008711280294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67459b1330020d244abf9be83d1fabef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodys:
+  - {fileID: 3829514767497168145}
+  - {fileID: 6781472703493276342}
+  - {fileID: 5001210105279963323}
+  - {fileID: 3901454501924801972}
+  - {fileID: 9144465028199350571}
+  hands:
+  - {fileID: 8352730599806728887}
+  - {fileID: 4176356721701640787}
+  weapons:
+  - {fileID: 3774062418216344385}
 --- !u!1 &3667252543451838853
 GameObject:
   m_ObjectHideFlags: 0
