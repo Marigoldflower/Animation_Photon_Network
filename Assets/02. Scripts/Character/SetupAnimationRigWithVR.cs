@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.XR.CoreUtils;
@@ -32,8 +33,12 @@ public class SetupAnimationRigWithVR : MonoBehaviour
     // XR Rig라고 생각하면 된다.
     XROrigin origin;
 
+    private PhotonView pv;
+
     private void Start()
     {
+        pv = this.GetComponent<PhotonView>();
+
         origin = FindObjectOfType<XROrigin>();
 
         this.transform.SetParent(origin.transform);
@@ -46,8 +51,11 @@ public class SetupAnimationRigWithVR : MonoBehaviour
 
     void FixedUpdate()
     {
-        origin.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        origin.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        if (pv.IsMine)
+        {
+            origin.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            origin.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        }
 
     }
 
@@ -57,14 +65,17 @@ public class SetupAnimationRigWithVR : MonoBehaviour
         //this.transform.position = head.ikTarget.position + headbodyPositionOffset;
 
         // 플레이어의 각도를 설정
-        float yaw = head.vrTarget.eulerAngles.y;
-        this.transform.rotation = Quaternion.Lerp(this.transform.rotation
-                                , Quaternion.Euler(this.transform.eulerAngles.x, yaw, this.transform.eulerAngles.z)
-                                , turnSmoothness);
+        if (pv.IsMine) {
 
-        // 머리, 손의 위치와 각도를 설정
-        head.Map();
-        leftHand.Map();
-        rightHand.Map();
+            float yaw = head.vrTarget.eulerAngles.y;
+            this.transform.rotation = Quaternion.Lerp(this.transform.rotation
+                                    , Quaternion.Euler(this.transform.eulerAngles.x, yaw, this.transform.eulerAngles.z)
+                                    , turnSmoothness);
+
+            // 머리, 손의 위치와 각도를 설정
+            head.Map();
+            leftHand.Map();
+            rightHand.Map();
+        }
     }
 }

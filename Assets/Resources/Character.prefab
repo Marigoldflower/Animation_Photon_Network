@@ -1073,6 +1073,7 @@ GameObject:
   - component: {fileID: 6798727606709943130}
   - component: {fileID: -2943550586384876284}
   - component: {fileID: 4940606444643076300}
+  - component: {fileID: 2159362665115808751}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -1333,6 +1334,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 4940606444643076300}
+  - {fileID: 2159362665115808751}
   - {fileID: 1473574578203387228}
   sceneViewId: 0
   InstantiationId: 0
@@ -1353,6 +1355,42 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &2159362665115808751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3651410008711280294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 1
+    SynchronizeType: 2
+    Name: Left Grip
+  - Type: 1
+    SynchronizeType: 2
+    Name: Right Grip
+  - Type: 1
+    SynchronizeType: 2
+    Name: MoveX
+  - Type: 1
+    SynchronizeType: 2
+    Name: MoveY
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
+  - SynchronizeType: 0
+    LayerIndex: 1
+  - SynchronizeType: 0
+    LayerIndex: 2
+  - SynchronizeType: 0
+    LayerIndex: 3
 --- !u!1 &3667252543451838853
 GameObject:
   m_ObjectHideFlags: 0
