@@ -34,6 +34,7 @@ public class SetupAnimationRigWithVR : MonoBehaviour
     XROrigin origin;
 
     private PhotonView pv;
+    public float characterHeight = 0.11f;
 
     private void Start()
     {
@@ -41,8 +42,8 @@ public class SetupAnimationRigWithVR : MonoBehaviour
 
         origin = FindObjectOfType<XROrigin>();
 
-        this.transform.SetParent(origin.transform);
-        this.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        //this.transform.SetParent(origin.transform);
+        //this.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
 
         head.vrTarget = origin.transform.GetChild(0).GetChild(0);//XR Origin/Camera Offset/Main Camera
         leftHand.vrTarget = origin.transform.GetChild(0).GetChild(1); // XR Origin/ Camera Offset/ Left Controller
@@ -61,12 +62,12 @@ public class SetupAnimationRigWithVR : MonoBehaviour
 
     void LateUpdate()
     {
-        // 플레이어의 위치를 설정
-        //this.transform.position = head.ikTarget.position + headbodyPositionOffset;
+        if (pv.IsMine)
+        {
+            // 플레이어의 위치를 설정
+            this.transform.position = new Vector3(head.ikTarget.position.x, characterHeight, head.ikTarget.position.z);
 
-        // 플레이어의 각도를 설정
-        if (pv.IsMine) {
-
+            // 플레이어의 각도를 설정
             float yaw = head.vrTarget.eulerAngles.y;
             this.transform.rotation = Quaternion.Lerp(this.transform.rotation
                                     , Quaternion.Euler(this.transform.eulerAngles.x, yaw, this.transform.eulerAngles.z)
