@@ -39,6 +39,7 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - AvatarChange
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

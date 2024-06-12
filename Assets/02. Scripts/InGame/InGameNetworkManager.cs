@@ -45,28 +45,35 @@ public class InGameNetworkManager : MonoBehaviourPunCallbacks
             Vector3 spawnPosition = new Vector3(Random.Range(-1f, 1f), 1f, Random.Range(-1f, 1f));
             PhotonNetwork.Instantiate("Character2", spawnPosition, Quaternion.identity);
 
-            // isMine 플레이어에 대하여 아바타 동기화
+            // RPC를 보내서 플레이어 코스튬 갱신
             var players = FindObjectsOfType<NetworkCharacterController>();
+            CharacterAvatar avatar = null;
+
             foreach (var player in players)
             {
                 if (player.GetComponent<PhotonView>().IsMine)
                 {
-                    player.GetComponent<CharacterAvatar>().Initialize();
+                    avatar = player.GetComponent<CharacterAvatar>();
                     break;
                 }
             }
-            /////////////////////////
+
+            if (avatar != null)
+            {
+                avatar.Initialize();
+
+                if (PhotonNetwork.PlayerListOthers.Length > 0)
+                {
+                    photonView.RPC("AvatarChange", RpcTarget.Others, avatar);
+                }
+            }
+            //////////////////////////////
         }
     }
 
-    //void Start()
-    //{
-
-    //    if (PhotonNetwork.IsConnectedAndReady)
-    //    {
-    //        Vector3 spawnPosition = new Vector3(Random.Range(-1f, 1f), 1f, Random.Range(-1f, 1f));
-    //        PhotonNetwork.Instantiate("Character", spawnPosition, Quaternion.identity);
-    //    }
-
-    //}
+    [PunRPC]
+    public void AvatarChange(CharacterAvatar avatar)
+    {
+        avatar.Initialize();
+    }
 }
