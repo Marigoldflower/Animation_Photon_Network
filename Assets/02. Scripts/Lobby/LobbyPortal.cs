@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MoveToNextScene : MonoBehaviourPunCallbacks
+public class LobbyPortal : MonoBehaviourPunCallbacks
 {
 
     void OnTriggerEnter(Collider other)

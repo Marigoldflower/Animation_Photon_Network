@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InitializeNetworkAndPlayer : MonoBehaviourPunCallbacks
+public class InGameNetworkManager : MonoBehaviourPunCallbacks
 {
     void Awake()
     {

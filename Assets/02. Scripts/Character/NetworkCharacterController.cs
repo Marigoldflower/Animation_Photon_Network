@@ -20,7 +20,7 @@ public class VRMap
     }
 }
 
-public class SetupAnimationRigWithVR : MonoBehaviour
+public class NetworkCharacterController : MonoBehaviour
 {
     public float turnSmoothness = 0.1f;
     public VRMap head;

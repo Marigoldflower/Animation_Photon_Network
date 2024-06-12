@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SetAnimationMovingAccordingToVR : MonoBehaviour
+public class VRMoveController : MonoBehaviour
 {
     public InputActionProperty moveAction; // XR 컨트롤러의 스틱 입력을 받기 위한 프로퍼티
     private Animator animator;
@@ -23,5 +23,4 @@ public class SetAnimationMovingAccordingToVR : MonoBehaviour
         animator.SetFloat("MoveY", moveInput.y);
 
     }
-
 }
