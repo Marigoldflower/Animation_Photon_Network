@@ -1,5 +1,6 @@
 using Photon.Pun;
 using Photon.Realtime;
+using SCI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,7 @@ public class InGameNetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("네트워크 마스터에 접속");
+
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = 2; // 최대 플레이어 수를 2로 설정
         PhotonNetwork.JoinOrCreateRoom("GameRoom", roomOptions, null);
@@ -41,7 +43,19 @@ public class InGameNetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnectedAndReady)
         {
             Vector3 spawnPosition = new Vector3(Random.Range(-1f, 1f), 1f, Random.Range(-1f, 1f));
-            PhotonNetwork.Instantiate("Character", spawnPosition, Quaternion.identity);
+            PhotonNetwork.Instantiate("Character2", spawnPosition, Quaternion.identity);
+
+            // isMine 플레이어에 대하여 아바타 동기화
+            var players = FindObjectsOfType<NetworkCharacterController>();
+            foreach (var player in players)
+            {
+                if (player.GetComponent<PhotonView>().IsMine)
+                {
+                    player.GetComponent<CharacterAvatar>().Initialize();
+                    break;
+                }
+            }
+            /////////////////////////
         }
     }
 

@@ -8,7 +8,7 @@ public class SetRender : MonoBehaviour
     private PhotonView pv;
     public GameObject[] bodys;
     public GameObject[] hands;
-    public GameObject[] weapons;
+    //public GameObject[] weapons;
 
     void Start()
     {
@@ -17,14 +17,14 @@ public class SetRender : MonoBehaviour
         hands[0].layer = 9;
         hands[1].layer = 9;
 
-        foreach (var weapon in weapons)
-        {
-            Renderer[] renderers = weapon.GetComponentsInChildren<Renderer>();
-            for (int i = 0; i < renderers.Length; i++)
-            {
-                renderers[i].gameObject.layer = 8;
-            }
-        }
+        //foreach (var weapon in weapons)
+        //{
+        //    Renderer[] renderers = weapon.GetComponentsInChildren<Renderer>();
+        //    for (int i = 0; i < renderers.Length; i++)
+        //    {
+        //        renderers[i].gameObject.layer = 8;
+        //    }
+        //}
 
         if (pv.IsMine)
         {
