@@ -39,25 +39,8 @@ namespace SCI
             base.OnPlayerEnteredRoom(newPlayer);
             Debug.Log("New Player Come In");
 
-            // RPC를 보내서 자신의 코스튬 정보를 전송
-            var localPlayer = GetLocalPlayer();
-
-            if (localPlayer != null)
-            {
-                int viewID = localPlayer.GetComponent<PhotonView>().ViewID;
-
-                int count = DataManager.Instance.playerData.costumeDatas.Count;
-                int[] types = new int[count];
-                int[] indexs = new int[count];
-                for (int i = 0; i < count; i++)
-                {
-                    types[i] = i;
-                    indexs[i] = DataManager.Instance.playerData.costumeDatas[(CostumeType)i];
-                }
-
-                photonView.RPC("SyncCostumeRPC", RpcTarget.Others, viewID, types, indexs);
-            }
-            //////////////////////////////
+            // RPC를 보내서 로컬의 코스튬 정보 전송
+            ReQuestSyncCostume(RpcTarget.Others);
         }
 
         public override void OnJoinedRoom()
@@ -67,25 +50,8 @@ namespace SCI
                 Vector3 spawnPosition = new Vector3(Random.Range(-1f, 1f), 1f, Random.Range(-1f, 1f));
                 PhotonNetwork.Instantiate("Character2", spawnPosition, Quaternion.identity);
 
-                // 로컬 플레이어 코스튬 갱신
-                NetworkCharacterController localPlayer = GetLocalPlayer();
-
-                if (localPlayer != null)
-                {
-                    int viewID = localPlayer.GetComponent<PhotonView>().ViewID;
-
-                    int count = DataManager.Instance.playerData.costumeDatas.Count;
-                    int[] types = new int[count];
-                    int[] indexs = new int[count];
-                    for (int i = 0; i < count; i++)
-                    {
-                        types[i] = i;
-                        indexs[i] = DataManager.Instance.playerData.costumeDatas[(CostumeType)i];
-                    }
-
-                    photonView.RPC("SyncCostumeRPC", RpcTarget.All, viewID, types, indexs);
-                }
-                //////////////////////////////
+                // 로컬 및 리모트 플레이어 코스튬 정보 전송
+                ReQuestSyncCostume(RpcTarget.All);
             }
         }
         #endregion
@@ -108,33 +74,49 @@ namespace SCI
             return null;
         }
 
-        public void SyncCostume(CharacterAvatar avatar, Dictionary<CostumeType, int> datas)
+
+        public void ReQuestSyncCostume(RpcTarget target)
         {
-            foreach (var data in datas)
+            NetworkCharacterController localPlayer = GetLocalPlayer();
+
+            if (localPlayer != null)
             {
-                avatar.SetCostume(data.Key, data.Value);
+                int viewID = localPlayer.GetComponent<PhotonView>().ViewID;
+
+                int count = DataManager.Instance.GetCostumeDatas().Count;
+                int[] types = new int[count];
+                int[] indexs = new int[count];
+                for (int i = 0; i < count; i++)
+                {
+                    types[i] = i;
+                    indexs[i] = DataManager.Instance.GetCostumeData((CostumeType)i);
+                }
+
+                photonView.RPC("SyncCostumeRPC", target, viewID, types, indexs);
             }
         }
 
         [PunRPC]
         public void SyncCostumeRPC(int viewID, int[] types, int[] indexs)
         {
-            var players = FindObjectsOfType<NetworkCharacterController>();
-
-            // 직렬화가능한 인자를 딕셔너리로 변환
             var datas = new Dictionary<CostumeType, int>();
             for (int i = 0; i < types.Length; i++)
             {
-                datas.Add((CostumeType)types[i], indexs[i]);
+                datas[(CostumeType)i] = indexs[i];
             }
 
-            // 생성된 딕셔너리를 바탕으로 코스튬 동기화
+            var players = FindObjectsOfType<NetworkCharacterController>();
+
             foreach (var player in players)
             {
                 if (player.GetComponent<PhotonView>().ViewID == viewID)
                 {
                     CharacterAvatar avatar = player.GetComponent<CharacterAvatar>();
-                    SyncCostume(avatar, datas);
+
+                    foreach (var data in datas)
+                    {
+                        avatar.SetCostume(data.Key, data.Value);
+                    }
 
                     break;
                 }

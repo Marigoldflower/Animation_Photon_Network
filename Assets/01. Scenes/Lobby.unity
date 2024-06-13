@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2287,7 +2287,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &380881796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2301,8 +2301,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData:
-    costumeDatas:
-      m_Items: []
+    weaponData:
+      type: 0
+      index: 0
+    _costumeDatas:
+    - type: 0
+      index: 1
+    - type: 1
+      index: 2
+    - type: 2
+      index: 2
+    - type: 3
+      index: 3
+    - type: 4
+      index: 1
 --- !u!4 &380881797
 Transform:
   m_ObjectHideFlags: 0
@@ -6743,7 +6755,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1169559507
 MonoBehaviour:
   m_ObjectHideFlags: 0

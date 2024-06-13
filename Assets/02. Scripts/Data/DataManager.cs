@@ -35,8 +35,7 @@ namespace SCI
         }
         #endregion
 
-        public PlayerData playerData = new PlayerData();
-        private CharacterAvatar characterAvatar;
+        [SerializeField] private PlayerData playerData;
 
         void Awake()
         {
@@ -51,31 +50,35 @@ namespace SCI
                 Destroy(this.gameObject);
             }
 
-            Initialize();
+            playerData.Initialize();
         }
 
         #region Methods
-        public void Initialize()
+        public WeaponData GetWeaponData()
         {
-            // 코스튬 정보 초기화 작업
-            for (int i = 0; i < Enum.GetValues(typeof(CostumeType)).Length; i++)
-            {
-                // enum타입을 순회하여 각 타입별로 원소를 추가
-                var type = (CostumeType)Enum.ToObject(typeof(CostumeType), i);
-                playerData.costumeDatas.Add(type, 0);
-            }
+            return playerData.weaponData;
+        }
+
+        public void SetWeaponData(WeaponData newData)
+        {
+            playerData.weaponData = newData;
+        }
+
+        public Dictionary<CostumeType, int> GetCostumeDatas()
+        {
+            return playerData.costumeDatas;
         }
 
         public int GetCostumeData(CostumeType type)
         {
-            // 현재 코스튬을 가져오기
+            // 현재 코스튬정보를 가져오기
             return playerData.costumeDatas[type];
         }
 
-        public void SetCostumeData(CostumeData data)
+        public void SetCostumeData(CostumeData newData)
         {
             // 코스튬을 세팅하기
-            playerData.costumeDatas[data.type] = data.index;
+            playerData.costumeDatas[newData.type] = newData.index;
         }
         #endregion
     }

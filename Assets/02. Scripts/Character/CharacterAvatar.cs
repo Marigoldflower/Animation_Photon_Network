@@ -70,35 +70,30 @@ namespace SCI
                 case CostumeType.Head:
                     if (headTf.childCount > instance.GetCostumeData(CostumeType.Head))
                     {
-                        currentHead = index;
                         headTf.GetChild(index).gameObject.SetActive(true);
                     }
                     break;
                 case CostumeType.Face:
                     if (faceTf.childCount > instance.GetCostumeData(CostumeType.Face))
                     {
-                        currentFace = index;
                         faceTf.GetChild(index).gameObject.SetActive(true);
                     }
                     break;
                 case CostumeType.Upper:
                     if (upperTf.childCount > instance.GetCostumeData(CostumeType.Upper))
                     {
-                        currentUpper = index;
                         upperTf.GetChild(index).gameObject.SetActive(true);
                     }
                     break;
                 case CostumeType.Lower:
                     if (lowerTf.childCount > instance.GetCostumeData(CostumeType.Lower))
                     {
-                        currentLower = index;
                         lowerTf.GetChild(index).gameObject.SetActive(true);
                     }
                     break;
                 case CostumeType.Foot:
                     if (footTf.childCount > instance.GetCostumeData(CostumeType.Foot))
                     {
-                        currentFoot = index;
                         footTf.GetChild(index).gameObject.SetActive(true);
                     }
                     break;
