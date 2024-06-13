@@ -8,6 +8,8 @@ namespace SCI
 {
     public class InGameManager : MonoBehaviourPunCallbacks
     {
+        PhotonView pv;
+
         void Awake()
         {
             // 스크린의 사이즈 조정 
@@ -22,6 +24,7 @@ namespace SCI
         void Start()
         {
             PhotonNetwork.ConnectUsingSettings();
+            pv = this.GetComponent<PhotonView>();
         }
 
         public override void OnConnectedToMaster()
@@ -45,7 +48,7 @@ namespace SCI
             {
                 Dictionary<CostumeType, int> costumeDatas = DataManager.Instance.playerData.costumeDatas;
                 int viewID = localPlayer.GetComponent<PhotonView>().ViewID;
-                photonView.RPC("SyncCostumeRPC", RpcTarget.Others, viewID, costumeDatas);
+                pv.RPC("SyncCostumeRPC", RpcTarget.Others, viewID, costumeDatas);
             }
             //////////////////////////////
         }
@@ -99,6 +102,11 @@ namespace SCI
         public void SyncCostumeRPC(int viewID, Dictionary<CostumeType, int> datas)
         {
             var players = FindObjectsOfType<NetworkCharacterController>();
+
+            for (var i = 0; i < players.Length; i++)
+            {
+                Debug.Log(players[i].name);
+            }
 
             foreach (var player in players)
             {
