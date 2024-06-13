@@ -186,7 +186,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af2e5f75715a7534f9f16d9f4c18b77b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {}
+  playerData:
+    costumeDatas:
+      m_Items: []
 --- !u!4 &380881797
 Transform:
   m_ObjectHideFlags: 0

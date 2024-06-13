@@ -47,13 +47,13 @@ namespace SCI
                 Dictionary<CostumeType, int> costumeDatas = DataManager.Instance.playerData.costumeDatas;
                 int viewID = localPlayer.GetComponent<PhotonView>().ViewID;
 
-                List<CostumeType> types = new List<CostumeType>();
-                List<int> indexs = new List<int>();
-                for(int i=0; i<DataManager.Instance.playerData.costumeDatas.Count; i++)
+                int count = DataManager.Instance.playerData.costumeDatas.Count;
+                int[] types = new int[count];
+                int[] indexs = new int[count];
+                for (int i = 0; i < count; i++)
                 {
-                    var type = (CostumeType)i;
-                    types.Add(type);
-                    indexs.Add(DataManager.Instance.playerData.costumeDatas[type]);
+                    types[i] = i;
+                    indexs[i] = DataManager.Instance.playerData.costumeDatas[(CostumeType)i];
                 }
                 photonView.RPC("SyncCostumeRPC", RpcTarget.All, viewID, types, indexs);
             }
@@ -115,15 +115,15 @@ namespace SCI
         }
 
         [PunRPC]
-        public void SyncCostumeRPC(int viewID, List<CostumeType> types, List<int> indexs)
+        public void SyncCostumeRPC(int viewID, int[] types, int[] indexs)
         {
             var players = FindObjectsOfType<NetworkCharacterController>();
 
             // 직렬화가능한 인자를 딕셔너리로 변환
             var datas = new Dictionary<CostumeType, int>();
-            for(int i=0; i<types.Count; i++)
+            for (int i = 0; i < types.Length; i++)
             {
-                datas.Add(types[i], indexs[i]);
+                datas.Add((CostumeType)types[i], indexs[i]);
             }
 
             // 생성된 딕셔너리를 바탕으로 코스튬 동기화

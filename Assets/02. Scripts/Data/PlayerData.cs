@@ -10,6 +10,6 @@ namespace SCI
     public class PlayerData
     {
         public WeaponData weaponData;
-        public Dictionary<CostumeType, int> costumeDatas = new Dictionary<CostumeType, int>();
+        public SerializableDictionary<CostumeType, int> costumeDatas = new SerializableDictionary<CostumeType, int>();
     }
 }
