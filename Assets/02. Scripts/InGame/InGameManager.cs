@@ -44,7 +44,6 @@ namespace SCI
 
             if (localPlayer != null)
             {
-                Dictionary<CostumeType, int> costumeDatas = DataManager.Instance.playerData.costumeDatas;
                 int viewID = localPlayer.GetComponent<PhotonView>().ViewID;
 
                 int count = DataManager.Instance.playerData.costumeDatas.Count;
@@ -55,7 +54,8 @@ namespace SCI
                     types[i] = i;
                     indexs[i] = DataManager.Instance.playerData.costumeDatas[(CostumeType)i];
                 }
-                photonView.RPC("SyncCostumeRPC", RpcTarget.All, viewID, types, indexs);
+
+                photonView.RPC("SyncCostumeRPC", RpcTarget.Others, viewID, types, indexs);
             }
             //////////////////////////////
         }
@@ -72,8 +72,23 @@ namespace SCI
 
                 if (localPlayer != null)
                 {
-                    var avatar = localPlayer.GetComponent<CharacterAvatar>();
-                    SyncCostume(avatar, DataManager.Instance.playerData.costumeDatas);
+                    //var avatar = localPlayer.GetComponent<CharacterAvatar>();
+                    //SyncCostume(avatar, DataManager.Instance.playerData.costumeDatas);
+
+                    //
+                    int viewID = localPlayer.GetComponent<PhotonView>().ViewID;
+
+                    int count = DataManager.Instance.playerData.costumeDatas.Count;
+                    int[] types = new int[count];
+                    int[] indexs = new int[count];
+                    for (int i = 0; i < count; i++)
+                    {
+                        types[i] = i;
+                        indexs[i] = DataManager.Instance.playerData.costumeDatas[(CostumeType)i];
+                    }
+
+                    photonView.RPC("SyncCostumeRPC", RpcTarget.All, viewID, types, indexs);
+                    //
                 }
                 //////////////////////////////
             }
@@ -97,14 +112,6 @@ namespace SCI
 
             return null;
         }
-
-        //public void SyncCostume(CharacterAvatar avatar, Dictionary<CostumeType, int> datas)
-        //{
-        //    foreach (var data in datas)
-        //    {
-        //        avatar.SetCostume(data.Key, data.Value);
-        //    }
-        //}
 
         public void SyncCostume(CharacterAvatar avatar, Dictionary<CostumeType, int> datas)
         {
@@ -137,28 +144,11 @@ namespace SCI
                     break;
                 }
             }
+
+            for (int i = 0; i < types.Length; i++)
+            {
+                Debug.Log((CostumeType)i + " : " + indexs[i]);
+            }
         }
-
-        //[PunRPC]
-        //public void SyncCostumeRPC(int viewID, Dictionary<CostumeType, int> datas)
-        //{
-        //    var players = FindObjectsOfType<NetworkCharacterController>();
-
-        //    for (var i = 0; i < players.Length; i++)
-        //    {
-        //        Debug.Log(players[i].name);
-        //    }
-
-        //    foreach (var player in players)
-        //    {
-        //        if (player.GetComponent<PhotonView>().ViewID == viewID)
-        //        {
-        //            CharacterAvatar avatar = player.GetComponent<CharacterAvatar>();
-        //            SyncCostume(avatar, datas);
-
-        //            break;
-        //        }
-        //    }
-        //}
     }
 }

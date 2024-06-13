@@ -112,34 +112,19 @@ namespace SCI
             switch (type)
             {
                 case CostumeType.Head:
-                    if (currentHead != null)
-                    {
                         parentTf = headTf;
-                    }
                     break;
                 case CostumeType.Face:
-                    if (currentHead != null)
-                    {
                         parentTf = faceTf;
-                    }
                     break;
                 case CostumeType.Upper:
-                    if (currentHead != null)
-                    {
                         parentTf = upperTf;
-                    }
                     break;
                 case CostumeType.Lower:
-                    if (currentHead != null)
-                    {
                         parentTf = lowerTf;
-                    }
                     break;
                 case CostumeType.Foot:
-                    if (currentHead != null)
-                    {
                         parentTf = footTf;
-                    }
                     break;
             }
 
