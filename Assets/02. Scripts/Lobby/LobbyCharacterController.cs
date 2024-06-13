@@ -40,7 +40,7 @@ public class LobbyCharacterController : MonoBehaviour
     void LateUpdate()
     {
         // 플레이어의 위치를 설정
-        //this.transform.position = head.ikTarget.position + headbodyPositionOffset;
+        this.transform.position = new Vector3(head.ikTarget.position.x, 0f, head.ikTarget.position.z); 
 
         // 플레이어의 각도를 설정
         float yaw = head.vrTarget.eulerAngles.y;
