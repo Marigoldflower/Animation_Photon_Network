@@ -14,11 +14,11 @@ namespace SCI
         public Transform lowerTf;
         public Transform footTf;
 
-        private GameObject currentHead;
-        private GameObject currentFace;
-        private GameObject currentUpper;
-        private GameObject currentLower;
-        private GameObject currentFoot;
+        public int currentHead { get; private set; }
+        public int currentFace { get; private set; }
+        public int currentUpper { get; private set; }
+        public int currentLower { get; private set; }
+        public int currentFoot { get; private set; }
 
         public void Initialize()
         {
@@ -27,39 +27,39 @@ namespace SCI
             {
                 // enum타입을 순회하여 각 타입별로 코스튬 착용
                 var type = (CostumeType)Enum.ToObject(typeof(CostumeType), i);
-                SwitchCostume(type);
+                SetCostume(type, DataManager.Instance.GetCostumeData(type));
             }
         }
 
-        public void SwitchCostume(CostumeType type)
+        public void SetCostume(CostumeType type, int index)
         {
             // 코스튬 변경
             switch (type)
             {
                 case CostumeType.Head:
                     UnDressCostume(CostumeType.Head);
-                    DressCostume(CostumeType.Head);
+                    DressCostume(CostumeType.Head, index);
                     break;
                 case CostumeType.Face:
                     UnDressCostume(CostumeType.Face);
-                    DressCostume(CostumeType.Face);
+                    DressCostume(CostumeType.Face, index);
                     break;
                 case CostumeType.Upper:
                     UnDressCostume(CostumeType.Upper);
-                    DressCostume(CostumeType.Upper);
+                    DressCostume(CostumeType.Upper, index);
                     break;
                 case CostumeType.Lower:
                     UnDressCostume(CostumeType.Lower);
-                    DressCostume(CostumeType.Lower);
+                    DressCostume(CostumeType.Lower, index);
                     break;
                 case CostumeType.Foot:
                     UnDressCostume(CostumeType.Foot);
-                    DressCostume(CostumeType.Foot);
+                    DressCostume(CostumeType.Foot, index);
                     break;
             }
         }
 
-        private void DressCostume(CostumeType type)
+        private void DressCostume(CostumeType type, int index)
         {
             var instance = DataManager.Instance;
 
@@ -70,36 +70,36 @@ namespace SCI
                 case CostumeType.Head:
                     if (headTf.childCount > instance.GetCostumeData(CostumeType.Head))
                     {
-                        currentHead = headTf.GetChild(instance.GetCostumeData(CostumeType.Head)).gameObject;
-                        currentHead.SetActive(true);
+                        currentHead = index;
+                        headTf.GetChild(index).gameObject.SetActive(true);
                     }
                     break;
                 case CostumeType.Face:
                     if (faceTf.childCount > instance.GetCostumeData(CostumeType.Face))
                     {
-                        currentFace = faceTf.GetChild(instance.GetCostumeData(CostumeType.Face)).gameObject;
-                        currentFace.SetActive(true);
+                        currentFace = index;
+                        faceTf.GetChild(index).gameObject.SetActive(true);
                     }
                     break;
                 case CostumeType.Upper:
                     if (upperTf.childCount > instance.GetCostumeData(CostumeType.Upper))
                     {
-                        currentUpper = upperTf.GetChild(instance.GetCostumeData(CostumeType.Upper)).gameObject;
-                        currentUpper.SetActive(true);
+                        currentUpper = index;
+                        upperTf.GetChild(index).gameObject.SetActive(true);
                     }
                     break;
                 case CostumeType.Lower:
                     if (lowerTf.childCount > instance.GetCostumeData(CostumeType.Lower))
                     {
-                        currentLower = lowerTf.GetChild(instance.GetCostumeData(CostumeType.Lower)).gameObject;
-                        currentLower.SetActive(true);
+                        currentLower = index;
+                        lowerTf.GetChild(index).gameObject.SetActive(true);
                     }
                     break;
                 case CostumeType.Foot:
                     if (footTf.childCount > instance.GetCostumeData(CostumeType.Foot))
                     {
-                        currentFoot = footTf.GetChild(instance.GetCostumeData(CostumeType.Foot)).gameObject;
-                        currentFoot.SetActive(true);
+                        currentFoot = index;
+                        footTf.GetChild(index).gameObject.SetActive(true);
                     }
                     break;
             }
