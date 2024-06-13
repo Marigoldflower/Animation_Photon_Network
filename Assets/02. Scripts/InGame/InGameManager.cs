@@ -8,8 +8,6 @@ namespace SCI
 {
     public class InGameManager : MonoBehaviourPunCallbacks
     {
-        PhotonView pv;
-
         void Awake()
         {
             // 스크린의 사이즈 조정 
@@ -24,9 +22,9 @@ namespace SCI
         void Start()
         {
             PhotonNetwork.ConnectUsingSettings();
-            pv = this.GetComponent<PhotonView>();
         }
 
+        #region Photon Callbacks
         public override void OnConnectedToMaster()
         {
             Debug.Log("네트워크 마스터에 접속");
@@ -48,7 +46,16 @@ namespace SCI
             {
                 Dictionary<CostumeType, int> costumeDatas = DataManager.Instance.playerData.costumeDatas;
                 int viewID = localPlayer.GetComponent<PhotonView>().ViewID;
-                pv.RPC("SyncCostumeRPC", RpcTarget.Others, viewID, costumeDatas);
+
+                List<CostumeType> types = new List<CostumeType>();
+                List<int> indexs = new List<int>();
+                for(int i=0; i<DataManager.Instance.playerData.costumeDatas.Count; i++)
+                {
+                    var type = (CostumeType)i;
+                    types.Add(type);
+                    indexs.Add(DataManager.Instance.playerData.costumeDatas[type]);
+                }
+                photonView.RPC("SyncCostumeRPC", RpcTarget.All, viewID, types, indexs);
             }
             //////////////////////////////
         }
@@ -71,6 +78,7 @@ namespace SCI
                 //////////////////////////////
             }
         }
+        #endregion
 
         public NetworkCharacterController GetLocalPlayer()
         {
@@ -90,6 +98,14 @@ namespace SCI
             return null;
         }
 
+        //public void SyncCostume(CharacterAvatar avatar, Dictionary<CostumeType, int> datas)
+        //{
+        //    foreach (var data in datas)
+        //    {
+        //        avatar.SetCostume(data.Key, data.Value);
+        //    }
+        //}
+
         public void SyncCostume(CharacterAvatar avatar, Dictionary<CostumeType, int> datas)
         {
             foreach (var data in datas)
@@ -99,15 +115,18 @@ namespace SCI
         }
 
         [PunRPC]
-        public void SyncCostumeRPC(int viewID, Dictionary<CostumeType, int> datas)
+        public void SyncCostumeRPC(int viewID, List<CostumeType> types, List<int> indexs)
         {
             var players = FindObjectsOfType<NetworkCharacterController>();
 
-            for (var i = 0; i < players.Length; i++)
+            // 직렬화가능한 인자를 딕셔너리로 변환
+            var datas = new Dictionary<CostumeType, int>();
+            for(int i=0; i<types.Count; i++)
             {
-                Debug.Log(players[i].name);
+                datas.Add(types[i], indexs[i]);
             }
 
+            // 생성된 딕셔너리를 바탕으로 코스튬 동기화
             foreach (var player in players)
             {
                 if (player.GetComponent<PhotonView>().ViewID == viewID)
@@ -119,5 +138,27 @@ namespace SCI
                 }
             }
         }
+
+        //[PunRPC]
+        //public void SyncCostumeRPC(int viewID, Dictionary<CostumeType, int> datas)
+        //{
+        //    var players = FindObjectsOfType<NetworkCharacterController>();
+
+        //    for (var i = 0; i < players.Length; i++)
+        //    {
+        //        Debug.Log(players[i].name);
+        //    }
+
+        //    foreach (var player in players)
+        //    {
+        //        if (player.GetComponent<PhotonView>().ViewID == viewID)
+        //        {
+        //            CharacterAvatar avatar = player.GetComponent<CharacterAvatar>();
+        //            SyncCostume(avatar, datas);
+
+        //            break;
+        //        }
+        //    }
+        //}
     }
 }
