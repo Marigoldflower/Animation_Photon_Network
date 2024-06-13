@@ -5116,8 +5116,6 @@ MonoBehaviour:
   hands:
   - {fileID: 8352730599806728887}
   - {fileID: 4176356721701640787}
-  weapons:
-  - {fileID: 3774062418216344385}
 --- !u!1 &3667252543451838853
 GameObject:
   m_ObjectHideFlags: 0
@@ -6616,7 +6614,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4026942239675588640
 Transform:
   m_ObjectHideFlags: 0
@@ -7527,7 +7525,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5259969622602437445
 Transform:
   m_ObjectHideFlags: 0
@@ -9036,7 +9034,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6376882707354831152
 Transform:
   m_ObjectHideFlags: 0
