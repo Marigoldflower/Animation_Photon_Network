@@ -39,11 +39,13 @@ namespace SCI
             Debug.Log("New Player Come In");
 
             // RPC를 보내서 자신의 코스튬 정보를 전송
-            var player = GetLocalPlayer();
-            if (player != null)
+            var localPlayer = GetLocalPlayer();
+
+            if (localPlayer != null)
             {
-                var avatar = player.GetComponent<CharacterAvatar>();
-                photonView.RPC("SyncCostume", RpcTarget.Others, avatar, DataManager.Instance.playerData.costumeDatas);
+                Dictionary<CostumeType, int> costumeDatas = DataManager.Instance.playerData.costumeDatas;
+                int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+                photonView.RPC("SyncCostumeRPC", RpcTarget.Others, actorNumber, costumeDatas);
             }
             //////////////////////////////
         }
@@ -56,17 +58,18 @@ namespace SCI
                 PhotonNetwork.Instantiate("Character2", spawnPosition, Quaternion.identity);
 
                 // 로컬 플레이어 코스튬 갱신
-                var player = GetLocalPlayer();
-                if (player != null)
+                NetworkCharacterController localPlayer = GetLocalPlayer();
+
+                if (localPlayer != null)
                 {
-                    var avatar = player.GetComponent<CharacterAvatar>();
+                    var avatar = localPlayer.GetComponent<CharacterAvatar>();
                     SyncCostume(avatar, DataManager.Instance.playerData.costumeDatas);
                 }
                 //////////////////////////////
             }
         }
 
-        private NetworkCharacterController GetLocalPlayer()
+        public NetworkCharacterController GetLocalPlayer()
         {
             var players = FindObjectsOfType<NetworkCharacterController>();
 
@@ -84,12 +87,28 @@ namespace SCI
             return null;
         }
 
-        [PunRPC]
         public void SyncCostume(CharacterAvatar avatar, Dictionary<CostumeType, int> datas)
         {
             foreach (var data in datas)
             {
                 avatar.SetCostume(data.Key, data.Value);
+            }
+        }
+
+        [PunRPC]
+        public void SyncCostumeRPC(int actorNumber, Dictionary<CostumeType, int> datas)
+        {
+            var players = FindObjectsOfType<NetworkCharacterController>();
+
+            foreach (var player in players)
+            {
+                if (player.GetComponent<PhotonView>().Owner.ActorNumber == actorNumber)
+                {
+                    CharacterAvatar avatar = player.GetComponent<CharacterAvatar>();
+                    SyncCostume(avatar, datas);
+
+                    break;
+                }
             }
         }
     }
