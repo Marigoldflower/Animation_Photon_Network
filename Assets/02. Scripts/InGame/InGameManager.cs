@@ -72,10 +72,6 @@ namespace SCI
 
                 if (localPlayer != null)
                 {
-                    //var avatar = localPlayer.GetComponent<CharacterAvatar>();
-                    //SyncCostume(avatar, DataManager.Instance.playerData.costumeDatas);
-
-                    //
                     int viewID = localPlayer.GetComponent<PhotonView>().ViewID;
 
                     int count = DataManager.Instance.playerData.costumeDatas.Count;
@@ -88,7 +84,6 @@ namespace SCI
                     }
 
                     photonView.RPC("SyncCostumeRPC", RpcTarget.All, viewID, types, indexs);
-                    //
                 }
                 //////////////////////////////
             }
@@ -143,11 +138,6 @@ namespace SCI
 
                     break;
                 }
-            }
-
-            for (int i = 0; i < types.Length; i++)
-            {
-                Debug.Log((CostumeType)i + " : " + indexs[i]);
             }
         }
     }
