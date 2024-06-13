@@ -44,8 +44,8 @@ namespace SCI
             if (localPlayer != null)
             {
                 Dictionary<CostumeType, int> costumeDatas = DataManager.Instance.playerData.costumeDatas;
-                int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
-                photonView.RPC("SyncCostumeRPC", RpcTarget.Others, actorNumber, costumeDatas);
+                int viewID = localPlayer.GetComponent<PhotonView>().ViewID;
+                photonView.RPC("SyncCostumeRPC", RpcTarget.Others, viewID, costumeDatas);
             }
             //////////////////////////////
         }
@@ -96,13 +96,13 @@ namespace SCI
         }
 
         [PunRPC]
-        public void SyncCostumeRPC(int actorNumber, Dictionary<CostumeType, int> datas)
+        public void SyncCostumeRPC(int viewID, Dictionary<CostumeType, int> datas)
         {
             var players = FindObjectsOfType<NetworkCharacterController>();
 
             foreach (var player in players)
             {
-                if (player.GetComponent<PhotonView>().Owner.ActorNumber == actorNumber)
+                if (player.GetComponent<PhotonView>().ViewID == viewID)
                 {
                     CharacterAvatar avatar = player.GetComponent<CharacterAvatar>();
                     SyncCostume(avatar, datas);
